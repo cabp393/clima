@@ -12,28 +12,51 @@ export default function App() {
     setInput(e.target.value)
   }
 
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+  }
+
   return (
-    <div className="card">
-      <input onChange={handleChange} type="text" />
-      {loading && (
-        <div>
-          <div className="lds-dual-ring"></div>
+    <div className="container">
+      <div className="card">
+        <div className="input-container">
+          <input onChange={handleChange} type="text" spellcheck="false" />
         </div>
-      )}
-      {mssError && (
-        <div>
-          <p>Error al solicitar los datos.</p>
-        </div>
-      )}
-      {data && (
-        <div>
-          <h1>{data.name}</h1>
-          <img src={`https://openweathermap.org/img/wn/${data.icon}@2x.png`} />
-          <p>Temp actual: {data.temp}°</p>
-          <p>Temp mínima: {data.temp_min}°</p>
-          <p>Temp máxima: {data.temp_max}°</p>
-        </div>
-      )}
+        {loading && (
+          <div className="loading-spinner">
+            <div className="lds-dual-ring"></div>
+          </div>
+        )}
+        {mssError && (
+          <div>
+            <p>Error al solicitar los datos.</p>
+          </div>
+        )}
+        {data && (
+          <div className="info">
+            <div className="data">
+              {/* <h1>{data.name}</h1> */}
+              <div className="minmax">
+                {Math.round(data.temp_max)}° day 🡅 · {Math.round(data.temp_min)}
+                ° night 🡇
+              </div>
+              <div className="now">{Math.round(data.temp)}°</div>
+              <div className="sens">Feels like {Math.round(data.sens)}°</div>
+            </div>
+            <div className="city">
+              <div className="city-name">
+                {data.name} <div className="sens"> {data.country}</div>
+              </div>
+              <div className="city-img">
+                <img
+                  src={`https://openweathermap.org/img/wn/${data.icon}@2x.png`}
+                />
+              </div>
+              <div className="sens">{capitalizeFirstLetter(data.des)}</div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

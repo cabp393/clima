@@ -13,13 +13,16 @@ export const useWeather = (city = 'Dalcahue') => {
     fetch(`${API_URL}${city}${API_ID}`)
       .then(res => res.json())
       .then(res => {
-        // console.log('data', res.weather[0].icon)
+        console.log(res)
         setData({
           name: res.name,
           temp: res.main.temp,
           temp_min: res.main.temp_min,
           temp_max: res.main.temp_max,
+          sens: res.main.feels_like,
+          des: res.weather[0].description,
           icon: res.weather[0].icon,
+          country: res.sys.country,
         })
         setLoading(false)
         setMssError(null)
