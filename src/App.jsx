@@ -1,34 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React, { useState } from 'react'
+import { useWeather } from './services/client.js'
+import './components/spinner.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [input, setInput] = useState('Dalcahue')
+  const [data, loading, mssError] = useWeather(input)
+
+  console.log('->', data, loading, mssError)
+
+  function handleChange(e) {
+    setInput(e.target.value)
+  }
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className="card">
+      <input onChange={handleChange} type="text" />
+      {loading && (
+        <div>
+          <div className="lds-dual-ring"></div>
+        </div>
+      )}
+      {mssError && (
+        <div>
+          <p>Error al solicitar los datos.</p>
+        </div>
+      )}
+      {data && (
+        <div>
+          <h1>{data.name}</h1>
+          <img src={`https://openweathermap.org/img/wn/${data.icon}@2x.png`} />
+          <p>Temp actual: {data.temp}°</p>
+          <p>Temp mínima: {data.temp_min}°</p>
+          <p>Temp máxima: {data.temp_max}°</p>
+        </div>
+      )}
     </div>
   )
 }
-
-export default App
