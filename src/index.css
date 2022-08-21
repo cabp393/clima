@@ -82,3 +82,18 @@ input {
   align-items: baseline;
   gap: 0.5rem;
 }
+
+@media (max-width: 500px) {
+  .container {
+    width: 250px;
+  }
+
+  .info {
+    flex-direction: column-reverse;
+    align-content: center;
+    gap: 1em;
+  }
+  .data {
+    align-items: center;
+  }
+}
