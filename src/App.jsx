@@ -6,8 +6,6 @@ export default function App() {
   const [input, setInput] = useState('Dalcahue')
   const [data, loading, mssError] = useWeather(input)
 
-  console.log('->', data, loading, mssError)
-
   function handleChange(e) {
     setInput(e.target.value)
   }
